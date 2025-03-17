@@ -19,3 +19,8 @@ resource "google_service_account_key" "sa_key" {
   key_algorithm      = "KEY_ALG_RSA_2048"
 }
 
+resource "local_file" "my_key_file" {
+  filename   = "response/my-service-account-key.json"
+  content    = base64decode(google_service_account_key.sa_key.private_key)
+}
+
