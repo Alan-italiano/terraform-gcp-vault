@@ -10,10 +10,6 @@ source "$CONFIG_FILE"
 
 VAULT_TOKEN=$(curl -s --insecure --request POST --data "{\"role_id\":\"$APPROLE_ROLE_ID\", \"secret_id\":\"$APPROLE_SECRET_ID\"}" \
     "$VAULT_ADDR/v1/auth/approle/login" | jq -r '.auth.client_token')
-    echo $VAULT_ADDR
-    echo $APPROLE_ROLE_ID
-    echo $APPROLE_SECRET_ID
-    echo $VAULT_TOKEN
 
 if [[ -z "$VAULT_TOKEN" || "$VAULT_TOKEN" == "null" ]]; then
     echo "Falha na autenticação do Vault!"
