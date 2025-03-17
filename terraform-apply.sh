@@ -8,15 +8,15 @@ fi
 
 source "$CONFIG_FILE"
 
-VAULT_TOKEN=$(curl -s --insecure --request POST --data "{\"role_id\":\"$APPROLE_ROLE_ID\", \"secret_id\":\"$APPROLE_SECRET_ID\"}" \
+TOKEN=$(curl -s --insecure --request POST --data "{\"role_id\":\"$ROLE_ID\", \"secret_id\":\"$SECRET_ID\"}" \
     "$VAULT_ADDR/v1/auth/approle/login" | jq -r '.auth.client_token')
 
-if [[ -z "$VAULT_TOKEN" || "$VAULT_TOKEN" == "null" ]]; then
+if [[ -z "$TOKEN" || "$TOKEN" == "null" ]]; then
     echo "Falha na autenticação do Vault!"
     exit 1
 fi
 
-GCP_KEY_JSON=$(curl -s --insecure --header "X-Vault-Token: $VAULT_TOKEN" "$VAULT_ADDR/v1/gcp/key/psyched-silicon-405818" | jq -r '.data.private_key_data')
+GCP_KEY_JSON=$(curl -s --insecure --header "X-Vault-Token: $TOKEN" "$VAULT_ADDR/v1/gcp/key/psyched-silicon-405818" | jq -r '.data.private_key_data')
 
 if [[ -z "$GCP_KEY_JSON" || "$GCP_KEY_JSON" == "null" ]]; then
     echo "Não foi possível obter a chave JSON da Service Account!"
