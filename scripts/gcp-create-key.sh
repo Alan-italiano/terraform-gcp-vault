@@ -23,6 +23,7 @@ request_gcp_info(){
 }
 
 vault_auth_role(){
+  #Loading environment variables for Vault Auth
   CONFIG_FILE="../.vault_credentials"
 
   if [[ ! -f "$CONFIG_FILE" ]]; then
